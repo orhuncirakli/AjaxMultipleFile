@@ -1,0 +1,66 @@
+﻿@model AjaxMultipleFile.ViewModel.Common
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<table>
+    <tr>
+         @*<td> Customer Id </td><td>@Html.TextBoxFor(m => m.Customer.CustomerId)</td>*@
+    </tr>
+    <tr>
+         <td> Customer Name </td><td>@Html.TextBoxFor(m => m.Customer.CustomerName)</td>
+    </tr>
+    <tr>
+         <td> Address </td><td>@Html.TextBoxFor(m => m.Customer.CustomerAddress)</td>
+    </tr>
+</table>
+
+<table>
+    <tr>
+        @*<td> Employee Id </td><td>@Html.TextBoxFor(m => m.Employee.EmployeeId)</td>*@
+    </tr>
+    <tr>
+    <td> Employee Name </td><td>@Html.TextBoxFor(m => m.Employee.EmployeeName)</td>
+    <tr/>
+    <tr>
+        <td> Address </td><td>@Html.TextBoxFor(m => m.Employee.EmployeeAddress)</td>
+    </tr>
+</table>
+<input type="button" id="btnSubmit" value="Submit"/>
+
+<script>
+    $('#btnSubmit').click(function() {
+        var customer = {
+            @*CustomerId: $('#@Html.IdFor(m=>m.Customer.CustomerId)').val(),*@
+            CustomerName: $('#@Html.IdFor(m=>m.Customer.CustomerName)').val(),
+            CustomerAddress: $('#@Html.IdFor(m=>m.Customer.CustomerAddress)').val()
+        }
+        var employee = {
+            @*EmployeIeId: $('#@Html.IdFor(m=>m.Employee.EmployeeId)').val(),*@
+            EmployeeName: $('#@Html.IdFor(m=>m.Employee.EmployeeName)').val(),
+            EmployeeAddress: $('#@Html.IdFor(m=>m.Employee.EmployeeAddress)').val()
+        }
+        var model = {
+            "customer": customer,
+            "employee": employee
+        }
+
+        console.log(model);
+
+        $.ajax({
+            type: "post",
+            url: "@Url.Action("Process", "Default")",
+            data: model,
+            datatype: "json",
+            cache: false,
+            success: function(data) {
+                alert("Successfull");
+            },
+            error: function(xhr) {
+                alert("Error.");
+            }
+        });
+    });
+</script>
